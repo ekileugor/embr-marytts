@@ -1,0 +1,17 @@
+Name: Embr
+Version: 0.1
+Cabal-Version: >= 1.2
+Author: Gianluca Giorgolo
+Synopsis: An Haskell interface to EMBR and MARY-TTS
+data-files: ./data/*.map
+data-dir: ./data
+build-type: Simple
+
+Library
+  build-depends: base >= 4, OpenAL, network-fancy, bytestring, HTTP, network, unix
+  exposed-modules: Embr, EmbrSocket, SimpleSound, MaryTTSInterface, Gesture
+  hs-source-dirs: src
+Executable test
+  main-is: Test.hs
+  other-modules: Embr, EmbrSocket, SimpleSound, MaryTTSInterface, Paths_Embr, Gesture
+  hs-source-dirs: src

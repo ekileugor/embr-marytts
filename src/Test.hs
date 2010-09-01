@@ -2,8 +2,7 @@ import SimpleSound
 import MaryTTSInterface
 import Embr
 import EmbrSocket
-import System.Posix.Process hiding (Stopped)
-import System.Posix.Types
+import Threading
 import Sound.OpenAL
 import Paths_Embr
 import Data.Monoid
@@ -28,13 +27,10 @@ test = do
                                                      , timeWarp = Nothing
                                                      , poses = generateMorphKeysSequence ps (read m)}
   print cmd
-  embr <- forkProcess $ standardAct (TimeReset `mappend` cmd)
-  play [s]
-  waitForSource s
-  cleanUp p 
-  waitForProcess embr "embr"
---  waitForProcess audio "audio"
+  executeInParallel [standardAct (TimeReset `mappend` cmd), play [s] >> waitForSource s >> cleanUp p]
   
+
+
 stdKPoseSequence = KPoseSequenceListOfPoses "Amber" 0 Nothing Nothing Nothing []
 
 square = do
@@ -49,11 +45,4 @@ square = do
             Vector3D 0.5 0 0.5,
             Vector3D (-0.5) 0 0.5]
 
---waitForProcess :: ProcessID -> IO ()
-waitForProcess pid name = do
-  res <- getProcessStatus True True pid
-  case res of
-    Just _ -> putStrLn $ "Process " ++ name ++ " has terminated."
-    _ -> waitForProcess pid name
-    
-main = square
+main = test

@@ -2,6 +2,7 @@ module Threading where
 
 import Control.Concurrent
 import Control.Exception
+import System.CPUTime
 
 waitForChildren children = do
   cs <- takeMVar children
@@ -26,9 +27,11 @@ executeInParallel ls = do
   mapM_ (forkChild children) ls
   waitForChildren children 
 
-
-test name = aux 10000 where
-    aux 0 = return ()
-    aux n = do
-      putStrLn $ name ++ " " ++ show n
-      aux (n-1)
+waitMillis :: Integer -> IO ()
+waitMillis millis = do
+  t <- getCPUTime
+  aux t where
+    d = millis * 1000000000
+    aux start = do
+      t <- getCPUTime
+      if (t-start) >= d then return () else aux start

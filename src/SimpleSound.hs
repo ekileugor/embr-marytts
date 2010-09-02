@@ -55,7 +55,7 @@ prepareToPlay sound = do
           setupStandardSource s buf 
           return (dev,c,s,ptr,buf)
   where
-    errMsg = "ARRGG! Me scurvy computer be not OpenAL friendly!!"
+    errMsg = "Problems with OpenAL: "
     
 cleanUp :: (Device,Context,Source,Ptr Word8,Buffer) -> IO ()
 cleanUp (d,c,s,p,b) = do

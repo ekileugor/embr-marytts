@@ -16,5 +16,6 @@ traceTrajectory hand arm vs time = first : points where
   f (v,i) = KPosePositionConstraint (i*delta) (Just 0) arm v origin hand
   
   
-rest :: KPose  
-rest = KPosePositionConstraint 1500 (Just 0) LArm (Vector3D 0.1 0.3 (-0.4)) origin LHand
+rest :: [KPose]  
+rest = [KPosePositionConstraint 1500 (Just 0) LArm (Vector3D 0.1 0.3 (-0.4)) origin LHand
+       ,KPosePositionConstraint 1500 (Just 0) RArm (Vector3D (-0.1) 0.3 (-0.4)) origin RHand]
